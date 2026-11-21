@@ -1,0 +1,37 @@
+name: Cinta
+options:
+  bundleIdPrefix: com.microdynamics
+  developmentLanguage: es
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    DEVELOPMENT_TEAM: DXN3AN6TZ7
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Cinta:
+    type: application
+    platform: iOS
+    sources:
+      - path: Cinta
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.microdynamics.cinta
+        PRODUCT_NAME: Cinta
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    info:
+      path: Cinta/Info.plist
+      properties:
+        CFBundleDisplayName: Cinta
+        CFBundleDevelopmentRegion: es
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        NSBluetoothAlwaysUsageDescription: Para conectar con la cinta de correr.
+        UIBackgroundModes: [bluetooth-central]

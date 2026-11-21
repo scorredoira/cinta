@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a1f"/>
+      <stop offset="1" stop-color="#ff3d2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <g stroke="#ffffff" stroke-width="78" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- tronco -->
+    <path d="M575 340 L480 560"/>
+    <!-- brazos -->
+    <path d="M555 380 L665 455 L745 375"/>
+    <path d="M555 380 L430 420 L370 520"/>
+    <!-- piernas -->
+    <path d="M480 560 L615 650 L575 800"/>
+    <path d="M480 560 L385 690 L255 700"/>
+  </g>
+  <circle cx="625" cy="225" r="82" fill="#ffffff"/>
+  <!-- banda -->
+  <rect x="150" y="850" width="724" height="56" rx="28" fill="#ffffff"/>
+</svg>

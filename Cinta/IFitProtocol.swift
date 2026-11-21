@@ -1,0 +1,130 @@
+import CoreBluetooth
+
+/// Protocolo iFit por Bluetooth de la NordicTrack T Series 5, sacado de QZ
+/// (qdomyos-zwift, src/devices/proformtreadmill/proformtreadmill.cpp, variante
+/// `nordictrack_tseries5_treadmill`).
+enum IFit {
+    static let service = CBUUID(string: "00001533-1412-EFDE-1523-785FEABCD123")
+    static let write = CBUUID(string: "00001534-1412-EFDE-1523-785FEABCD123")
+    static let notify = CBUUID(string: "00001535-1412-EFDE-1523-785FEABCD123")
+
+    private static func frame(_ b: [UInt8]) -> Data {
+        var d = b
+        if d.count < 20 && d.count != 4 { d += Array(repeating: 0, count: 20 - d.count) }
+        return Data(d)
+    }
+
+    static let initFrames: [Data] = {
+        let i1 = frame([0xfe, 0x02, 0x08, 0x02])
+        let i2 = frame([0xff, 0x08, 0x02, 0x04, 0x02, 0x04, 0x02, 0x04, 0x81, 0x87])
+        let i3 = frame([0xff, 0x08, 0x02, 0x04, 0x02, 0x04, 0x04, 0x04, 0x80, 0x88])
+        let i4 = frame([0xff, 0x08, 0x02, 0x04, 0x02, 0x04, 0x04, 0x04, 0x88, 0x90])
+        let i5 = frame([0xfe, 0x02, 0x0a, 0x02])
+        let i6 = frame([0xff, 0x0a, 0x02, 0x04, 0x02, 0x06, 0x02, 0x06, 0x82, 0x00, 0x00, 0x8a])
+        let i7 = frame([0xff, 0x0a, 0x02, 0x04, 0x02, 0x06, 0x02, 0x06, 0x84, 0x00, 0x00, 0x8c])
+        let i8 = frame([0xff, 0x08, 0x02, 0x04, 0x02, 0x04, 0x02, 0x04, 0x95, 0x9b])
+        let i9 = frame([0xfe, 0x02, 0x2c, 0x04])
+        let i10 = frame([0x00, 0x12, 0x02, 0x04, 0x02, 0x28, 0x04, 0x28, 0x90, 0x07,
+                         0x01, 0x8d, 0x68, 0x49, 0x28, 0x15, 0xf0, 0xe9, 0xc0, 0xbd])
+        let i11 = frame([0x01, 0x12, 0xa8, 0x99, 0x88, 0x75, 0x60, 0x79, 0x70, 0x4d,
+                         0x48, 0x49, 0x48, 0x75, 0x70, 0x69, 0x60, 0x9d, 0x88, 0xb9])
+        let i12 = frame([0xff, 0x08, 0xa8, 0xd5, 0xc0, 0xa0, 0x02, 0x00, 0x00, 0xad])
+        let n1 = frame([0xfe, 0x02, 0x17, 0x03])
+        let n2 = frame([0x00, 0x12, 0x02, 0x04, 0x02, 0x13, 0x04, 0x13, 0x02, 0x0c])
+        let n3 = frame([0xff, 0x05, 0x00, 0x80, 0x00, 0x00, 0xa5])
+        let n4 = frame([0xfe, 0x02, 0x19, 0x03])
+        let n5 = frame([0x00, 0x12, 0x02, 0x04, 0x02, 0x15, 0x04, 0x15, 0x02, 0x0e])
+        let n6 = frame([0xff, 0x07, 0x00, 0x00, 0x00, 0x10, 0x01, 0x00, 0x3a])
+        return [i1, i2, i1, i3, i1, i4, i5, i6, i5, i7, i1, i8, i9, i10, i11, i12,
+                n1, n2, n3, n4, n5, n6]
+    }()
+
+    /// Sondeo en bucle; las órdenes de velocidad e inclinación van tras la 3.ª trama
+    /// y las de start y stop tras la 6.ª, como hace QZ.
+    static let pollFrames: [Data] = [
+        frame([0xfe, 0x02, 0x17, 0x03]),
+        frame([0x00, 0x12, 0x02, 0x04, 0x02, 0x13, 0x04, 0x13, 0x02, 0x00,
+               0x0d, 0x13, 0x96, 0x31, 0x00, 0x00, 0x40, 0x10, 0x00, 0x80]),
+        frame([0xff, 0x05, 0x18, 0x00, 0x00, 0x01, 0xe9]),
+        frame([0xfe, 0x02, 0x19, 0x03]),
+        frame([0x00, 0x12, 0x02, 0x04, 0x02, 0x15, 0x04, 0x15, 0x02, 0x00,
+               0x0f, 0x80, 0x08, 0x40]),
+        frame([0xff, 0x07, 0x00, 0x00, 0x00, 0x80, 0x00, 0x10, 0x82]),
+    ]
+
+    static let startFrames: [Data] = [
+        frame([0xfe, 0x02, 0x20, 0x03]),
+        frame([0x00, 0x12, 0x02, 0x04, 0x02, 0x1c, 0x04, 0x1c, 0x02, 0x09,
+               0x00, 0x00, 0x40, 0x02, 0x18, 0x40, 0x00, 0x00, 0x80, 0x30]),
+        frame([0xff, 0x0e, 0x2a, 0x00, 0x00, 0xef, 0x1a, 0x58, 0x02, 0x00,
+               0xb4, 0x00, 0x58, 0x02, 0x00, 0x10]),
+        frame([0xfe, 0x02, 0x11, 0x02]),
+        frame([0xff, 0x11, 0x02, 0x04, 0x02, 0x0d, 0x04, 0x0d, 0x02, 0x02,
+               0x03, 0x10, 0xa0, 0x00, 0x00, 0x00, 0x0a, 0x00, 0xd2]),
+    ]
+
+    /// selector 0x01 = velocidad (km/h), 0x02 = inclinación (%); valor × 100 en little endian.
+    private static func setFrames(selector: UInt8, value: Double, checksumBase: UInt8) -> [Data] {
+        let v = UInt16(clamping: Int((max(0, value) * 100).rounded()))
+        let lo = UInt8(v & 0xff), hi = UInt8(v >> 8)
+        var w: [UInt8] = [0xff, 0x0d, 0x02, 0x04, 0x02, 0x09, 0x04, 0x09, 0x02, 0x01,
+                          selector, lo, hi, 0x00, 0x00, 0, 0, 0, 0, 0]
+        w[14] = lo &+ hi &+ checksumBase
+        return [frame([0xfe, 0x02, 0x0d, 0x02]), Data(w)]
+    }
+
+    static func speedFrames(_ kmh: Double) -> [Data] { setFrames(selector: 0x01, value: kmh, checksumBase: 0x11) }
+    static func inclineFrames(_ pct: Double) -> [Data] { setFrames(selector: 0x02, value: pct, checksumBase: 0x12) }
+
+    /// Trama de estado: 00 12 01 04 02 2e … velocidad en [10..11], inclinación en [12..13].
+    static func parse(_ d: Data) -> (speed: Double, incline: Double)? {
+        let b = [UInt8](d)
+        guard b.count == 20, b[0] == 0x00, b[1] == 0x12, b[2] == 0x01, b[3] == 0x04,
+              b[4] == 0x02, b[5] == 0x2e else { return nil }
+        if b[12...19].allSatisfy({ $0 == 0xff }) { return nil }
+        let speed = Double(UInt16(b[11]) << 8 | UInt16(b[10])) / 100
+        let incline = Double(Int16(bitPattern: UInt16(b[13]) << 8 | UInt16(b[12]))) / 100
+        return (speed, incline)
+    }
+}
+
+/// FTMS estándar (por si la cinta lo tuviera en vez del protocolo iFit).
+enum FTMS {
+    static let service = CBUUID(string: "1826")
+    static let treadmillData = CBUUID(string: "2ACD")
+    static let controlPoint = CBUUID(string: "2AD9")
+
+    static let requestControl = Data([0x00])
+    static let start = Data([0x07])
+    static let stop = Data([0x08, 0x01])
+    static func speed(_ kmh: Double) -> Data {
+        let v = UInt16(clamping: Int((kmh * 100).rounded()))
+        return Data([0x02, UInt8(v & 0xff), UInt8(v >> 8)])
+    }
+    static func incline(_ pct: Double) -> Data {
+        let v = UInt16(bitPattern: Int16(clamping: Int((pct * 10).rounded())))
+        return Data([0x03, UInt8(v & 0xff), UInt8(v >> 8)])
+    }
+
+    static func parse(_ d: Data) -> (speed: Double?, incline: Double?) {
+        let b = [UInt8](d)
+        guard b.count >= 2 else { return (nil, nil) }
+        let flags = UInt16(b[1]) << 8 | UInt16(b[0])
+        var i = 2
+        var speed: Double?
+        if flags & 0x01 == 0, b.count >= i + 2 {
+            speed = Double(UInt16(b[i + 1]) << 8 | UInt16(b[i])) / 100; i += 2
+        }
+        if flags & 0x02 != 0 { i += 2 }
+        if flags & 0x04 != 0 { i += 3 }
+        var incline: Double?
+        if flags & 0x08 != 0, b.count >= i + 2 {
+            incline = Double(Int16(bitPattern: UInt16(b[i + 1]) << 8 | UInt16(b[i]))) / 10
+        }
+        return (speed, incline)
+    }
+}
+
+extension Data {
+    var hex: String { map { String(format: "%02x", $0) }.joined(separator: " ") }
+}

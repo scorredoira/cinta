@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="760" viewBox="0 0 900 760" font-family="Helvetica, Arial, sans-serif">
+  <rect width="900" height="760" fill="#f4f1ea"/>
+  <text x="450" y="44" text-anchor="middle" font-size="26" font-weight="bold" fill="#222">Mando sin móvil (boceto, no a escala)</text>
+
+  <!-- manillar -->
+  <rect x="20" y="640" width="860" height="44" rx="22" fill="#5b5f66"/>
+  <rect x="20" y="648" width="860" height="10" rx="5" fill="#80858d"/>
+  <text x="450" y="720" text-anchor="middle" font-size="16" fill="#555">manillar de la cinta</text>
+  <!-- abrazaderas -->
+  <rect x="250" y="600" width="60" height="96" rx="8" fill="#2f3237"/>
+  <rect x="590" y="600" width="60" height="96" rx="8" fill="#2f3237"/>
+  <circle cx="280" cy="690" r="6" fill="#aaa"/><circle cx="620" cy="690" r="6" fill="#aaa"/>
+  <text x="280" y="740" text-anchor="middle" font-size="14" fill="#555">abrazadera</text>
+  <text x="620" y="740" text-anchor="middle" font-size="14" fill="#555">abrazadera</text>
+
+  <!-- caja -->
+  <rect x="180" y="70" width="540" height="540" rx="28" fill="#1d1f23" stroke="#000" stroke-width="3"/>
+
+  <!-- pantalla CYD -->
+  <rect x="290" y="96" width="320" height="200" rx="10" fill="#333"/>
+  <rect x="302" y="106" width="296" height="180" rx="4" fill="#0b0d10"/>
+  <text x="450" y="188" text-anchor="middle" font-size="72" font-weight="bold" fill="#fff">23:41</text>
+  <text x="372" y="236" text-anchor="middle" font-size="30" font-weight="bold" fill="#fff">9,0</text>
+  <text x="372" y="258" text-anchor="middle" font-size="13" fill="#999">km/h</text>
+  <text x="528" y="236" text-anchor="middle" font-size="30" font-weight="bold" fill="#fff">1,0</text>
+  <text x="528" y="258" text-anchor="middle" font-size="13" fill="#999">% altura</text>
+  <text x="450" y="280" text-anchor="middle" font-size="12" fill="#6c6">Serie 3/8 · correr 0:34</text>
+  <text x="630" y="170" font-size="13" fill="#bbb">pantalla 2,8"</text>
+  <text x="630" y="188" font-size="13" fill="#bbb">(CYD)</text>
+
+  <!-- fila altura (pequeños) -->
+  <text x="450" y="326" text-anchor="middle" font-size="13" fill="#999">ALTURA</text>
+  <g font-size="20" font-weight="bold" text-anchor="middle">
+    <circle cx="345" cy="356" r="20" fill="#777"/><text x="345" y="363" fill="#fff">−</text>
+    <circle cx="415" cy="356" r="20" fill="#777"/><text x="415" y="363" fill="#fff">0</text>
+    <circle cx="485" cy="356" r="20" fill="#777"/><text x="485" y="363" fill="#fff">1</text>
+    <circle cx="555" cy="356" r="20" fill="#777"/><text x="555" y="363" fill="#fff">+</text>
+  </g>
+
+  <!-- fila 0 - + -->
+  <g font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="300" cy="438" r="38" fill="#9a1c1c"/><circle cx="300" cy="432" r="34" fill="#e03131"/><text x="300" y="444" fill="#fff">0</text>
+    <circle cx="450" cy="438" r="38" fill="#3b2f9a"/><circle cx="450" cy="432" r="34" fill="#5c4ce0"/><text x="450" y="444" fill="#fff">−</text>
+    <circle cx="600" cy="438" r="38" fill="#3b2f9a"/><circle cx="600" cy="432" r="34" fill="#5c4ce0"/><text x="600" y="444" fill="#fff">+</text>
+  </g>
+
+  <!-- fila 4 5 9 10 -->
+  <g font-size="32" font-weight="bold" text-anchor="middle">
+    <circle cx="255" cy="538" r="38" fill="#174a8c"/><circle cx="255" cy="532" r="34" fill="#2f7be0"/><text x="255" y="543" fill="#fff">4</text>
+    <circle cx="385" cy="538" r="38" fill="#174a8c"/><circle cx="385" cy="532" r="34" fill="#2f7be0"/><text x="385" y="543" fill="#fff">5</text>
+    <circle cx="515" cy="538" r="38" fill="#174a8c"/><circle cx="515" cy="532" r="34" fill="#2f7be0"/><text x="515" y="543" fill="#fff">9</text>
+    <circle cx="645" cy="538" r="38" fill="#174a8c"/><circle cx="645" cy="532" r="34" fill="#2f7be0"/><text x="645" y="543" fill="#fff">10</text>
+  </g>
+
+  <!-- notas -->
+  <text x="40" y="110" font-size="14" fill="#444">caja sujeta</text>
+  <text x="40" y="130" font-size="14" fill="#444">al manillar,</text>
+  <text x="40" y="150" font-size="14" fill="#444">botones arcade</text>
+  <path d="M720 590 C 780 600, 800 620, 820 630" stroke="#444" stroke-width="3" fill="none"/>
+  <text x="740" y="580" font-size="14" fill="#444">cable USB</text>
+</svg>

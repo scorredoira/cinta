@@ -140,16 +140,14 @@ struct Controls: View {
                 Key("+", small: true) { t.setIncline(t.inclineBase + 1) }
             }
             HStack(spacing: 8) {
-                Key("0", color: .red, big: true) { s.manualStop() }
                 Key("−", color: .indigo, big: true) { t.setSpeed(t.speedBase - 0.5) }
                 Key("+", color: .indigo, big: true) { t.setSpeed(t.speedBase + 0.5) }
             }
             .padding(.top, 6)
             HStack(spacing: 8) {
+                Key("0", color: .red, big: true) { s.manualStop() }
                 Key("4", big: true) { t.setSpeed(4) }
-                Key("5", big: true) { t.setSpeed(5) }
                 Key("9", big: true) { t.setSpeed(9) }
-                Key("10", big: true) { t.setSpeed(10) }
             }
             .padding(.bottom, 4)
         }
